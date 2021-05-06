@@ -1,43 +1,46 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components/macro';
-import { Logo } from './Logo';
-import { StyleConstants } from 'styles/StyleConstants';
-import { Nav } from './Nav';
-import { PageWrapper } from '../PageWrapper';
+import { Button } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 export function NavBar() {
+  const history = useHistory();
+
+  const goToCounterPage = () => {
+    history.push('/counter');
+  };
+
+  const goToEmployeePage = () => {
+    history.push('/employees');
+  };
+
   return (
     <Wrapper>
-      <PageWrapper>
-        <Logo />
-        <Nav />
-      </PageWrapper>
+      <Button
+        className="m-3"
+        variant="light"
+        size="sm"
+        onClick={goToCounterPage}
+      >
+        Counter Page
+      </Button>
+      <Button
+        className="m-3"
+        variant="light"
+        size="sm"
+        onClick={goToEmployeePage}
+      >
+        Employee Page
+      </Button>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.header`
-  box-shadow: 0 1px 0 0 ${p => p.theme.borderLight};
-  height: ${StyleConstants.NAV_BAR_HEIGHT};
+  /* box-shadow: 0 1px 0 0 gray; */
+  height: 4rem;
+  width: 80vw;
   display: flex;
-  position: fixed;
   top: 0;
-  width: 100%;
-  background-color: ${p => p.theme.background};
-  z-index: 2;
-
-  @supports (backdrop-filter: blur(10px)) {
-    backdrop-filter: blur(10px);
-    background-color: ${p =>
-      p.theme.background.replace(
-        /rgba?(\(\s*\d+\s*,\s*\d+\s*,\s*\d+)(?:\s*,.+?)?\)/,
-        'rgba$1,0.75)',
-      )};
-  }
-
-  ${PageWrapper} {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  /* background-color: gray; */
 `;
