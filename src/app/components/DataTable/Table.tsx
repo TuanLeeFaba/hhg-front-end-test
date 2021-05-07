@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { useTable, usePagination } from 'react-table';
 import { Table as BootstrapTable } from 'react-bootstrap';
-import Pagination from '@material-ui/lab/Pagination';
+import { Pagination } from '../Pagination';
 
 export const Table = ({ columns, data }) => {
   const {
@@ -12,7 +12,7 @@ export const Table = ({ columns, data }) => {
     page,
     prepareRow,
     gotoPage,
-    pageOptions,
+    pageCount,
     state: { pageIndex },
   } = useTable(
     {
@@ -29,7 +29,7 @@ export const Table = ({ columns, data }) => {
         <BootstrapTable bordered size="sm" {...getTableProps()}>
           <thead>
             {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+              <tr className="header" {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th {...column.getHeaderProps()}>
                     {column.render('Header')}
@@ -54,27 +54,24 @@ export const Table = ({ columns, data }) => {
           </tbody>
         </BootstrapTable>
       </Styles>
-
-      <PaginationContainer
-        onChange={(event, page) => {
-          gotoPage(page - 1);
-        }}
-        showFirstButton
-        showLastButton
-        page={pageIndex + 1}
-        count={pageOptions.length}
+      <Pagination
+        pageCount={pageCount}
+        pageIndex={pageIndex}
+        gotoPage={gotoPage}
       />
     </>
   );
 };
 
 const Styles = styled.div`
-  /* padding: 1rem; */
   margin: 1rem;
 
   table {
+    .header {
+      background-color: #d4d3d3;
+    }
+
     border-spacing: 0;
-    border: 3px solid black;
     margin-bottom: 10px;
 
     tr {
@@ -90,16 +87,10 @@ const Styles = styled.div`
       width: 80vh;
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
 
       :last-child {
         border-right: 0;
       }
     }
   }
-`;
-
-const PaginationContainer = styled(Pagination)`
-  margin-left: 3px;
 `;
